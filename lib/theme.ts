@@ -36,6 +36,8 @@ export const color = {
   neutralBg: '#f4f6f9',
   neutralLine: '#e4e9f0',
   neutralInk: '#5d6f8f',
+  /** De-emphasised small print. Darker than `faint` so it clears AA on the pale page gradients. */
+  legalInk: '#385f8a',
 } as const;
 
 export const gradient = {
@@ -75,7 +77,12 @@ export const shadow = {
 } as const;
 
 export const font = {
-  family: "Poppins, system-ui, -apple-system, 'Segoe UI', sans-serif",
+  /**
+   * Fed by next/font/google in app/layout.tsx. The fallback list lives INSIDE var()
+   * on purpose: every call site interpolates this into the `font:` shorthand, and a
+   * bare var() that failed to resolve would invalidate the whole shorthand.
+   */
+  family: "var(--font-poppins, system-ui, -apple-system, 'Segoe UI', sans-serif)",
 } as const;
 
 /** Uppercase eyebrow label used above every panel. */
@@ -83,4 +90,17 @@ export const eyebrow = {
   font: '600 9.5px/1 ' + font.family,
   letterSpacing: '.14em',
   color: color.label,
+} as const;
+
+/**
+ * One content column shared by the marketing page's header, hero and footer.
+ * `width: '100%'` is load-bearing: the page root is a flex column, and auto
+ * cross-axis margins suppress flex stretch, so without it these blocks would
+ * shrink-wrap to max-content instead of filling the column.
+ */
+export const layout = {
+  maxW: 1440,
+  /** Horizontal page gutter. Fluid so phone widths don't lose 112px to padding. */
+  gutter: 'clamp(20px,5vw,56px)',
+  container: { width: '100%', maxWidth: 1440, margin: '0 auto' },
 } as const;

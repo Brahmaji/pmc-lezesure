@@ -33,7 +33,7 @@ type ButtonTone = 'action' | 'ghost' | 'warn' | 'danger';
 
 const buttonTone: Record<ButtonTone, CSSProperties> = {
   action: { background: gradient.action, color: '#fff', border: 'none', boxShadow: shadow.action },
-  ghost: { background: gradient.ghostBtn, color: color.body, border: '1px solid #d9e6f5' },
+  ghost: { background: gradient.ghostBtn, color: color.body, border: '1px solid ' + color.muted },
   warn: { background: gradient.warnChip, color: color.warnInk, border: '1px solid ' + color.warnEdge },
   danger: { background: 'linear-gradient(120deg,#fffafa,#fff4f4)', color: color.dangerInk, border: '1px solid #e2d3d3' },
 };

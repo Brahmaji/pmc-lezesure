@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { LogoMark } from '@/components/Shell';
+import { LogoMark } from '@/components/LogoMark';
 import { Button, Field, TextInput } from '@/components/ui';
 import { partner } from '@/lib/data';
 import { color, font, gradient } from '@/lib/theme';

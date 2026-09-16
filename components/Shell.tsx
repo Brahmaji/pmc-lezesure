@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { LogoMark } from '@/components/LogoMark';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { partner, tenants } from '@/lib/data';
@@ -161,21 +162,5 @@ export function Shell({ title, subtitle, actions, children }: {
         <div style={{ flex: 1, padding: '26px 40px 40px' }}>{children}</div>
       </main>
     </div>
-  );
-}
-
-export function LogoMark({ size = 32 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-label="LeazeSure">
-      <defs>
-        <linearGradient id="ls-shield" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#123a6e" />
-          <stop offset="0.6" stopColor="#2f7fc4" />
-          <stop offset="1" stopColor="#7cc9ef" />
-        </linearGradient>
-      </defs>
-      <path d="M16 2.5 28 7v9.4c0 7.3-4.9 13.4-12 15.1-7.1-1.7-12-7.8-12-15.1V7z" fill="url(#ls-shield)" />
-      <path d="M10.5 16.6l4 3.9 8-8.2" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }

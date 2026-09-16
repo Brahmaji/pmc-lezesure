@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { LogoMark } from '@/components/Shell';
+import { LogoMark } from '@/components/LogoMark';
 import { Button } from '@/components/ui';
 import { rules } from '@/lib/rules';
-import { color, font, gradient } from '@/lib/theme';
+import { color, font, gradient, layout } from '@/lib/theme';
 
 const POINTS = [
   { i: '1', t: 'A perk that costs you nothing to run', d: 'You fund it; your tenants get the benefit' },
@@ -18,12 +18,23 @@ const PROOF = [
 
 export function Marketing() {
   return (
-    <div style={{ minHeight: '100vh', background: gradient.pageWarm, position: 'relative', overflow: 'hidden' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        background: gradient.pageWarm,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
       <div
         style={{
           position: 'absolute',
           top: -160,
-          right: -120,
+          // Below the cap this resolves to -120px (unchanged); above it the glow
+          // follows the centred content instead of stranding itself in the gutter.
+          right: `max(-120px, calc(50% - ${layout.maxW / 2 + 120}px))`,
           width: 520,
           height: 520,
           borderRadius: '50%',
@@ -32,62 +43,70 @@ export function Marketing() {
       />
       <header
         style={{
+          // position:relative is load-bearing — without it the decorative glow
+          // above paints over the header and swallows clicks on the CTA.
           position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 20,
-          padding: '26px 56px',
+          padding: '26px 0',
           borderBottom: '1px solid rgba(30,90,150,.09)',
-          flexWrap: 'wrap',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
-          <LogoMark size={36} />
-          <div style={{ font: '700 18px/1 ' + font.family, letterSpacing: '-.015em', color: color.ink }}>
-            Leaze<span style={{ color: color.brandMid }}>Sure</span>
+        <div
+          style={{
+            ...layout.container,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 20,
+            flexWrap: 'wrap',
+            paddingInline: layout.gutter,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+            <LogoMark size={36} />
+            <div style={{ font: '700 18px/1 ' + font.family, letterSpacing: '-.015em', color: color.ink }}>
+              Leaze<span style={{ color: color.brandMid }}>Sure</span>
+            </div>
+            <span
+              style={{
+                font: '600 9px/1 ' + font.family,
+                letterSpacing: '.14em',
+                color: color.brandLabel,
+                padding: '6px 10px',
+                borderRadius: 20,
+                background: 'rgba(255,255,255,.75)',
+                border: '1px solid #c6def4',
+                marginLeft: 4,
+              }}
+            >
+              FOR PROPERTY MANAGERS
+            </span>
           </div>
-          <span
-            style={{
-              font: '600 9px/1 ' + font.family,
-              letterSpacing: '.14em',
-              color: color.brandLabel,
-              padding: '6px 10px',
-              borderRadius: 20,
-              background: 'rgba(255,255,255,.75)',
-              border: '1px solid #c6def4',
-              marginLeft: 4,
-            }}
-          >
-            FOR PROPERTY MANAGERS
-          </span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Button href="/signin" tone="ghost">
-            Partner sign in
-          </Button>
-          <Button href="/roll">Open the portal</Button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Button href="/signin" tone="ghost">
+              Partner sign in
+            </Button>
+            <Button href="/roll">Open the portal</Button>
+          </div>
         </div>
       </header>
 
-      <section
+      <main
+        className="ls-mkt-hero"
         style={{
           position: 'relative',
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0,1.05fr) minmax(0,.95fr)',
-          gap: 52,
-          alignItems: 'center',
-          padding: '58px 56px 64px',
-          maxWidth: 1440,
+          ...layout.container,
+          flex: 1,
+          paddingBlock: 'clamp(36px,5vw,58px) clamp(44px,5.5vw,64px)',
+          paddingInline: layout.gutter,
         }}
       >
-        <div>
+        <div className="ls-hero-copy">
           <div style={{ font: '600 10.5px/1 ' + font.family, letterSpacing: '.18em', color: color.brandLabel, marginBottom: 20 }}>
             EQUIFAX CANADA · LANDLORD-VERIFIED RENT REPORTING
           </div>
           <h1
             style={{
-              font: '700 56px/1.08 ' + font.family,
+              font: '700 clamp(30px,1.27rem + 2.48vw,56px)/1.08 ' + font.family,
               letterSpacing: '-.038em',
               color: color.ink,
               margin: '0 0 20px',
@@ -99,7 +118,7 @@ export function Marketing() {
           </h1>
           <p
             style={{
-              font: '400 16.5px/1.6 ' + font.family,
+              font: '400 clamp(15px,.9rem + .25vw,16.5px)/1.6 ' + font.family,
               color: color.body,
               margin: '0 0 32px',
               maxWidth: '46ch',
@@ -117,9 +136,9 @@ export function Marketing() {
               See the portal
             </Button>
           </div>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <div className="ls-mkt-points">
             {POINTS.map((w) => (
-              <div key={w.i} style={{ flex: '1 1 180px' }}>
+              <div key={w.i}>
                 <div
                   style={{
                     width: 30,
@@ -137,7 +156,7 @@ export function Marketing() {
                   {w.i}
                 </div>
                 <div style={{ font: '600 13.5px/1.35 ' + font.family, color: color.ink, marginBottom: 4 }}>{w.t}</div>
-                <div style={{ font: '400 12px/1.45 ' + font.family, color: color.muted }}>{w.d}</div>
+                <div style={{ font: '400 12px/1.45 ' + font.family, color: color.inkSoft }}>{w.d}</div>
               </div>
             ))}
           </div>
@@ -145,7 +164,7 @@ export function Marketing() {
 
         <div
           style={{
-            padding: 32,
+            padding: 'clamp(20px,3vw,32px)',
             borderRadius: 28,
             background: 'linear-gradient(150deg,#ffffff,#f2f9ff 55%,#e6f3fd)',
             border: '1px solid #dbe9f8',
@@ -173,7 +192,7 @@ export function Marketing() {
           <div style={{ padding: 20, borderRadius: 20, background: gradient.feature, border: '1px solid #d3e8f9', marginBottom: 14 }}>
             <div style={{ font: '700 40px/1 ' + font.family, letterSpacing: '-.04em', color: color.ink, marginBottom: 8 }}>
               44
-              <span style={{ font: '600 19px/1 ' + font.family, color: '#7ea3c8' }}> reporting as paid</span>
+              <span style={{ font: '600 19px/1 ' + font.family, color: color.inkSoft }}> reporting as paid</span>
             </div>
             <div style={{ font: '400 12.5px/1.5 ' + font.family, color: color.inkSoft }}>
               Everyone who paid is filed on the {rules.filingDay}th automatically. You only step in to flag a miss.
@@ -214,21 +233,24 @@ export function Marketing() {
             ))}
           </div>
         </div>
-      </section>
+      </main>
 
-      <footer
-        style={{
-          position: 'relative',
-          textAlign: 'center',
-          padding: '0 56px 40px',
-          font: '500 10px/1.8 ' + font.family,
-          letterSpacing: '.12em',
-          color: color.faint,
-        }}
-      >
-        TENANT CONSENT REQUIRED · NEVER A CONDITION OF TENANCY · PIPEDA-COMPLIANT
-        <div style={{ marginTop: 10, letterSpacing: 0, font: '400 12px/1.6 ' + font.family, color: color.ghost }}>
-          <Link href="/signin">Partner sign in</Link> · <Link href="/roll">Portal demo</Link>
+      <footer style={{ position: 'relative', padding: 0 }}>
+        <div
+          style={{
+            ...layout.container,
+            textAlign: 'center',
+            paddingInline: layout.gutter,
+            paddingBottom: 40,
+            font: '500 11px/1.8 ' + font.family,
+            letterSpacing: '.12em',
+            color: color.legalInk,
+          }}
+        >
+          TENANT CONSENT REQUIRED · NEVER A CONDITION OF TENANCY · PIPEDA-COMPLIANT
+          <div style={{ marginTop: 10, letterSpacing: 0, font: '400 12px/1.6 ' + font.family, color: color.legalInk }}>
+            <Link href="/signin">Partner sign in</Link> · <Link href="/roll">Portal demo</Link>
+          </div>
         </div>
       </footer>
     </div>
