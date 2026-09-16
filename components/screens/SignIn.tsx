@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { LogoMark } from '@/components/Shell';
@@ -81,7 +82,7 @@ export function SignIn() {
                 Continue
               </Button>
               <div style={{ textAlign: 'center', font: '400 12px/1.5 ' + font.family, color: color.ghost, marginTop: 20 }}>
-                Not a partner yet? <a href="/">Learn about LeazeSure for property managers</a>
+                Not a partner yet? <Link href="/">Learn about LeazeSure for property managers</Link>
               </div>
             </>
           ) : (

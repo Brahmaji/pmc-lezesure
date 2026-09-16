@@ -1,5 +1,10 @@
 import { TenantDetail } from '@/components/screens/TenantDetail';
 
-export default function Page({ searchParams }: { searchParams: { id?: string } }) {
-  return <TenantDetail tenantId={searchParams.id} />;
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ id?: string }>;
+}) {
+  const { id } = await searchParams;
+  return <TenantDetail tenantId={id} />;
 }
