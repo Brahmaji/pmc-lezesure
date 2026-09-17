@@ -33,7 +33,7 @@ export function FlagSelect() {
       subtitle={'Everyone else reports as paid on the ' + rules.filingDay + 'th — you only touch the exceptions'}
       actions={<Button href="/roll" tone="ghost">Cancel</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <Card style={{ padding: '30px 32px', borderRadius: 24, boxShadow: shadow.panel }}>
           <h2 style={{ font: '700 26px/1.2 ' + font.family, letterSpacing: '-.028em', color: color.ink, margin: '0 0 8px' }}>
             Who didn&apos;t pay?
@@ -91,6 +91,7 @@ export function FlagSelect() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
+                    flexWrap: 'wrap',
                     gap: 13,
                     padding: '15px 17px',
                     borderRadius: 16,
@@ -165,8 +166,13 @@ export function FlagSelect() {
             </div>
           ) : null}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 24 }}>
-            <Button disabled={selectedIds.length === 0} onClick={() => router.push('/flag/reason')} size="lg">
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginTop: 24 }}>
+            <Button
+              disabled={selectedIds.length === 0}
+              onClick={() => router.push('/flag/reason')}
+              size="lg"
+              style={{ maxWidth: '100%', whiteSpace: 'normal' }}
+            >
               {selectedIds.length
                 ? 'Continue with ' + selectedIds.length + ' tenant' + (selectedIds.length > 1 ? 's' : '')
                 : 'Continue'}

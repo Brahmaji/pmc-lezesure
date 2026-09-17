@@ -37,11 +37,11 @@ export function AddTenants() {
       subtitle={stats.awaitingConsent + ' invited tenants have not consented yet'}
       actions={<Button href="/roll" tone="ghost">Back to roll</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <Card style={{ padding: '30px 32px', borderRadius: 24, boxShadow: shadow.panel }}>
           {sent ? (
             <div className="ls-rise">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24, flexWrap: 'wrap' }}>
                 <div
                   className="ls-pop"
                   style={{
@@ -88,7 +88,7 @@ export function AddTenants() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: 12 }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Button href="/roll">Back to rent roll</Button>
                 <Button tone="ghost" onClick={() => setSent(false)}>
                   Add another tenant
@@ -117,7 +117,7 @@ export function AddTenants() {
               </div>
 
               {mode === 'single' ? (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+                <div className="ls-pair" style={{ display: 'grid', gap: 14, marginBottom: 14 }}>
                   {FIELDS.map(([label, value, placeholder]) => (
                     <div key={label}>
                       <div style={{ font: '600 9.5px/1 ' + font.family, letterSpacing: '.13em', color: color.label, marginBottom: 9 }}>
@@ -254,7 +254,7 @@ export function AddTenants() {
                 </span>
               </div>
 
-              <Button size="lg" onClick={() => setSent(true)}>
+              <Button size="lg" onClick={() => setSent(true)} style={{ whiteSpace: 'normal' }}>
                 {mode === 'bulk' ? 'Send list to LeazeSure' : 'Add tenant and send invitation'}
               </Button>
             </>

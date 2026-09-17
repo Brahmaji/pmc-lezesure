@@ -19,16 +19,15 @@ export function SignIn() {
   const [code, setCode] = useState('');
 
   return (
-    <div style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr 1fr', background: gradient.page }}>
+    <div className="ls-signin" style={{ minHeight: '100vh', background: gradient.page }}>
       <div
+        className="ls-signin-brand"
         style={{
           position: 'relative',
           overflow: 'hidden',
+          minWidth: 0,
           background: 'linear-gradient(148deg,#123a6e 0%,#1f5fa8 48%,#2f7fc4 100%)',
-          padding: 56,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          padding: 'clamp(20px, 5.5vw, 56px)',
         }}
       >
         <div
@@ -62,8 +61,8 @@ export function SignIn() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 56 }}>
-        <div style={{ width: '100%', maxWidth: 420 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 0, padding: 'clamp(20px, 5.5vw, 56px)' }}>
+        <div style={{ width: '100%', minWidth: 0, maxWidth: 420 }}>
           {step === 'credentials' ? (
             <>
               <h2 style={{ font: '700 28px/1.2 ' + font.family, letterSpacing: '-.03em', color: color.ink, margin: '0 0 8px' }}>Sign in</h2>

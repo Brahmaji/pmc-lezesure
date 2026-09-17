@@ -39,7 +39,7 @@ export function FlagsDisputes() {
       subtitle="Every month you flagged, and where it stands with Equifax"
       actions={<Button href="/flag">Report a missed payment</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {months.map(({ month, records }) => (
             <div
@@ -65,9 +65,8 @@ export function FlagsDisputes() {
                   return (
                     <div
                       key={record.id + subject.ref}
+                      className="ls-flagrow"
                       style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1.5fr 1.2fr .6fr auto',
                         gap: 14,
                         alignItems: 'center',
                         padding: '14px 24px',
@@ -98,7 +97,7 @@ export function FlagsDisputes() {
 
                       <span style={{ font: '400 12.5px/1.3 ' + font.family, color: color.muted }}>{record.raised}</span>
 
-                      <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: 9 }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 9 }}>
                         <Pill bg={skin.bg} border={skin.border} fg={skin.fg}>
                           {skin.label}
                         </Pill>

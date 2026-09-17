@@ -12,8 +12,6 @@ import { usePortal } from '@/lib/store';
 import { color, font, gradient, shadow } from '@/lib/theme';
 import type { RowStatus } from '@/lib/types';
 
-const GRID = '1.7fr .8fr .65fr 1.5fr';
-
 const STATUS_COPY: Record<RowStatus, { label: string; tone: 'brand' | 'warn' | 'mute' }> = {
   paid: { label: 'Reporting as paid', tone: 'brand' },
   flagged: { label: 'Flagged · held', tone: 'warn' },
@@ -54,9 +52,9 @@ export function RentRoll() {
         </>
       }
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 330px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ gap: 22, alignItems: 'start', ['--rail']: '330px' } as React.CSSProperties}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ display: 'flex', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Stat
               k="ENROLLED TENANTS"
               v={String(stats.enrolled)}
@@ -99,7 +97,7 @@ export function RentRoll() {
               overflow: 'hidden',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '20px 24px 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', padding: '20px 24px 16px' }}>
               <div style={{ font: '600 14.5px/1 ' + font.family, letterSpacing: '-.01em', color: color.ink }}>
                 Enrolled tenants
               </div>
@@ -154,17 +152,7 @@ export function RentRoll() {
               </select>
             </div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: GRID,
-                gap: 14,
-                padding: '11px 24px',
-                background: gradient.tableHead,
-                borderTop: '1px solid ' + color.lineMid,
-                borderBottom: '1px solid ' + color.lineMid,
-              }}
-            >
+            <div className="ls-rollhead">
               {['UNIT & TENANT', 'RENT · DUE', 'ENROLLED', ''].map((h, i) => (
                 <span
                   key={h + i}
@@ -183,14 +171,8 @@ export function RentRoll() {
                 <Link
                   key={t.id}
                   href={'/roll/tenant?id=' + t.id}
-                  className="ls-row"
+                  className="ls-row ls-rollrow"
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: GRID,
-                    gap: 14,
-                    alignItems: 'center',
-                    padding: '12px 24px',
-                    borderBottom: '1px solid ' + color.lineSoft,
                     background:
                       status === 'flagged' ? 'linear-gradient(120deg,#fffdf8,#fffaf1)' : status === 'withdrawn' ? '#f8f9fb' : 'transparent',
                   }}
@@ -230,14 +212,14 @@ export function RentRoll() {
                       {status === 'withdrawn' ? 'Withdrawn 28 Aug' : 'Since ' + t.consentDate}
                     </div>
                   </div>
-                  <div style={{ justifySelf: 'end' }}>
+                  <div>
                     <StatusTag status={status} label={copy.label} />
                   </div>
                 </Link>
               );
             })}
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', padding: '16px 24px' }}>
               <span style={{ font: '400 12px/1 ' + font.family, color: color.faint }}>
                 {query || propertyFilter !== 'all'
                   ? 'Showing ' + rows.length + ' matching tenants'

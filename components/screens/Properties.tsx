@@ -12,7 +12,7 @@ export function Properties() {
       subtitle={properties.length + ' buildings · authority verified per owner'}
       actions={<Button href="/properties/add">Add a property</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <p style={{ font: '400 14px/1.55 ' + font.family, color: color.muted, margin: '0 0 6px', maxWidth: '58ch' }}>
             Your right to report each building comes from its management agreement. We warn you before one expires;
@@ -32,7 +32,7 @@ export function Properties() {
                   boxShadow: shadow.card,
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 15, marginBottom: 14 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 15, marginBottom: 14 }}>
                   <div
                     style={{
                       width: 44,
@@ -49,7 +49,7 @@ export function Properties() {
                       <path d="M4 10.4 12 4l8 6.4V19a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 19z" stroke="#1f5fa8" strokeWidth="1.8" strokeLinejoin="round" />
                     </svg>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ flex: '1 1 140px', minWidth: 0 }}>
                     <div style={{ font: '600 16px/1.3 ' + font.family, color: color.ink, marginBottom: 3 }}>
                       {p.addr}, {p.city}
                     </div>
@@ -69,6 +69,7 @@ export function Properties() {
                 <div
                   style={{
                     display: 'flex',
+                    flexWrap: 'wrap',
                     alignItems: 'center',
                     gap: 12,
                     padding: '13px 15px',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { Shell } from '@/components/Shell';
 import { Button, Card, CheckBadge, Eyebrow, Pill, StatRow } from '@/components/ui';
 import { tenants } from '@/lib/data';
@@ -36,12 +36,13 @@ export function TenantDetail({ tenantId }: { tenantId?: string }) {
 
   return (
     <Shell title={tenant.name} subtitle={tenant.unit + ' · ' + tenant.ref} actions={<Button href="/roll" tone="ghost">Back to roll</Button>}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
+              flexWrap: 'wrap',
               gap: 20,
               padding: '26px 28px',
               borderRadius: 24,
@@ -67,7 +68,10 @@ export function TenantDetail({ tenantId }: { tenantId?: string }) {
             >
               {tenant.initials}
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
+            {/* basis, not 0 — otherwise this shrinks to a sliver on a phone and the
+                name wraps one letter per line rather than the status pill dropping
+                to its own row */}
+            <div style={{ flex: '1 1 170px', minWidth: 0 }}>
               <div style={{ font: '700 22px/1.2 ' + font.family, letterSpacing: '-.02em', color: color.ink, marginBottom: 5 }}>
                 {tenant.name}
               </div>
@@ -81,7 +85,7 @@ export function TenantDetail({ tenantId }: { tenantId?: string }) {
           </div>
 
           <Card style={{ padding: '24px 26px', borderRadius: 24 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
               <Eyebrow>TENANCY</Eyebrow>
               {active ? (
                 <Button tone="ghost" size="sm" onClick={() => setPanel(panel === 'rent' ? 'none' : 'rent')}>
@@ -89,7 +93,7 @@ export function TenantDetail({ tenantId }: { tenantId?: string }) {
                 </Button>
               ) : null}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="ls-pair" style={{ display: 'grid', gap: 12 }}>
               <Inset label="MONTHLY RENT (LEASE)" value={tenant.rent} />
               <Inset label="DUE ON" value={tenant.dueDay + ' of the month'} />
               <Inset label="ON THE LEASE" value={tenant.onLease + ' tenant(s) · shares declared by each'} />
@@ -99,6 +103,7 @@ export function TenantDetail({ tenantId }: { tenantId?: string }) {
                   gridColumn: '1 / -1',
                   display: 'flex',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
                   gap: 14,
                   padding: '15px 17px',
                   borderRadius: 15,
@@ -313,12 +318,15 @@ function Panel({
   return (
     <div className="ls-rise" style={{ marginTop: 14, padding: '18px 20px', borderRadius: 17, background: skin.background, border: skin.border }}>
       <Eyebrow tone={tone === 'info' ? 'brand' : 'warn'}>{eyebrow}</Eyebrow>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(' + fields.length + ',1fr)', gap: 10, marginBottom: 12 }}>
+      <div
+        className={fields.length > 1 ? 'ls-cells' : undefined}
+        style={{ display: 'grid', gap: 10, marginBottom: 12, ['--cells']: String(fields.length) } as CSSProperties}
+      >
         {fields.map((f) => (
           <div
             key={f}
             style={{
-              height: 46,
+              minHeight: 46,
               padding: '0 14px',
               border: '1px solid ' + skin.edge,
               borderRadius: 12,

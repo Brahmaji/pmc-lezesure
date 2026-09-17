@@ -22,11 +22,11 @@ export function Account() {
 
   return (
     <Shell title="Account & team" subtitle={partner.company + ' · partner since February 2026'}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <Card style={{ padding: '24px 26px', borderRadius: 24 }}>
             <Eyebrow>COMPANY ON FILE WITH EQUIFAX</Eyebrow>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="ls-pair" style={{ display: 'grid', gap: 12 }}>
               {[
                 ['LEGAL NAME', partner.company + ' Inc.'],
                 ['BUSINESS NUMBER', partner.businessNumber],
@@ -45,7 +45,7 @@ export function Account() {
           </Card>
 
           <Card style={{ padding: '24px 26px', borderRadius: 24 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
               <Eyebrow>TEAM</Eyebrow>
               <Button tone="ghost" size="sm" onClick={() => setSaved(true)}>
                 Invite a colleague
@@ -58,6 +58,7 @@ export function Account() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
+                    flexWrap: 'wrap',
                     gap: 13,
                     padding: '15px 16px',
                     borderRadius: 15,
@@ -81,7 +82,10 @@ export function Account() {
                   >
                     {m.name.split(' ').map((w) => w[0]).join('')}
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  {/* 170px basis, not minWidth:0 — otherwise this block shrinks to a few
+                      characters on a phone instead of pushing the permission pill to its
+                      own line. */}
+                  <div style={{ flex: '1 1 170px', minWidth: 0 }}>
                     <div style={{ font: '600 13.5px/1.3 ' + font.family, color: color.ink, marginBottom: 2 }}>{m.name}</div>
                     <div style={{ font: '400 11.5px/1.35 ' + font.family, color: color.faint }}>
                       {m.role} · {m.email}
@@ -119,7 +123,7 @@ export function Account() {
               <StatRow label="Your method" value={'Text to ' + partner.phoneMasked} />
               <StatRow label="Last sign-in" value="Today, 8:42 AM · Waterloo" />
             </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 16 }}>
               <Button tone="ghost" size="sm">Change password</Button>
               <Button tone="ghost" size="sm">Change 2-step method</Button>
             </div>

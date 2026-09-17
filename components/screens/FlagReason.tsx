@@ -48,7 +48,7 @@ export function FlagReasonScreen() {
       subtitle={subjects.length + ' tenant' + (subjects.length > 1 ? 's' : '') + ' selected'}
       actions={<Button href="/flag" tone="ghost">Back</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <Card style={{ padding: '30px 32px', borderRadius: 24, boxShadow: shadow.panel }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 18 }}>
             {subjects.map((t) => (
@@ -164,8 +164,8 @@ export function FlagReasonScreen() {
             />
           ) : null}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 8 }}>
-            <Button size="lg" onClick={submit}>
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginTop: 8 }}>
+            <Button size="lg" onClick={submit} style={{ whiteSpace: 'normal' }}>
               Save flag and notify tenant
             </Button>
             <span style={{ font: '400 12px/1.45 ' + font.family, color: color.faint, maxWidth: '26ch' }}>
@@ -235,6 +235,7 @@ function ExtraField({
       style={{
         display: 'flex',
         alignItems: 'center',
+        flexWrap: 'wrap',
         gap: 14,
         padding: '16px 18px',
         borderRadius: 15,
@@ -247,7 +248,7 @@ function ExtraField({
         <div style={{ font: '600 9.5px/1 ' + font.family, letterSpacing: '.13em', color: color.warnInk, marginBottom: 6 }}>{label}</div>
         <div style={{ font: '400 11.5px/1.4 ' + font.family, color: color.warnInkSoft }}>{hint}</div>
       </div>
-      <div style={{ width: 170 }}>
+      <div style={{ width: '100%', maxWidth: 170 }}>
         <TextInput value={value} onChange={onChange} placeholder={placeholder} />
       </div>
     </div>

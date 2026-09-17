@@ -156,3 +156,261 @@ select {
     row-gap: 0;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Portal shell — responsive layer.
+
+   The screens are authored as inline style objects, which cannot express media
+   or container queries. Anything that has to change with available width lives
+   here as a class instead. A screen adopting one of these classes MUST delete
+   the matching inline property: inline styles win over stylesheets, so a
+   leftover inline `gridTemplateColumns` silently defeats the rule below.
+
+   Breakpoints are container-based, not viewport-based, wherever the available
+   width depends on whether the nav rail is taking up space.
+   --------------------------------------------------------------------------- */
+
+/* Content area is the query container for everything a screen renders. */
+.ls-content {
+  container-type: inline-size;
+  padding: clamp(18px, 2.5vw, 26px) clamp(16px, 3vw, 40px) 40px;
+}
+
+/* Page header: title block + actions. Wraps instead of colliding. */
+.ls-pagehead {
+  padding: clamp(18px, 2.5vw, 26px) clamp(16px, 3vw, 40px);
+}
+
+/* The dominant screen layout: main column + fixed explainer rail.
+   Rail width varies per screen via --rail. Collapses to one column — content
+   first, rail after it — below the desktop floor.
+
+   This one keys off the VIEWPORT, not the container, and that is deliberate.
+   The nav rail costs 252px at >=900px but nothing below it, so the content
+   container is actually WIDER at 768px (~722px, drawer) than at 1024px
+   (~711px, static rail). A container query therefore cannot tell portrait
+   tablet apart from small desktop, and collapsing 768 would drag 1024 with
+   it. The viewport can tell them apart; 1024 keeps the two-column layout it
+   has today. */
+.ls-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--rail, 380px);
+}
+
+@media (max-width: 1023px) {
+  .ls-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Paired form fields / stat cells. */
+.ls-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@container (max-width: 439px) {
+  .ls-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A row of N equal cells that should stack rather than shrink to nothing. */
+.ls-cells {
+  display: grid;
+  grid-template-columns: repeat(var(--cells, 3), minmax(0, 1fr));
+}
+
+@container (max-width: 519px) {
+  .ls-cells {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@container (max-width: 319px) {
+  .ls-cells {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- nav rail / mobile drawer ---------- */
+
+.ls-topbar {
+  display: none;
+}
+
+.ls-scrim {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .ls-topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+    padding: 10px clamp(12px, 3vw, 20px);
+    background: linear-gradient(180deg, #ffffff, #f4faff);
+    border-bottom: 1px solid #e2ecf7;
+  }
+
+  /* The rail leaves the flow and becomes an off-canvas drawer. */
+  .ls-rail {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 60;
+    width: min(84vw, 300px);
+    transform: translateX(-100%);
+    /* visibility, not just transform: a translated-away drawer is still in the
+       tab order, so keyboard users would tab into invisible nav links. */
+    visibility: hidden;
+    transition: transform 0.26s ease, visibility 0.26s ease;
+    box-shadow: 0 18px 50px rgba(16, 40, 80, 0.22);
+    overflow-y: auto;
+  }
+
+  .ls-rail[data-open='true'] {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .ls-scrim[data-open='true'] {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(13, 43, 77, 0.42);
+  }
+
+  /* the avatar sits in the top bar on mobile; drop the header duplicate */
+  .ls-head-avatar {
+    display: none;
+  }
+
+  .ls-pagehead {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+}
+
+/* No close button needed while the rail is a permanent column. */
+@media (min-width: 900px) {
+  .ls-rail-close {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-rail {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Rent roll — a 4-column table on desktop, one card per tenant on phones.
+   Column headers are meaningless once a row stops being a row, so they are
+   hidden rather than stacked.
+   --------------------------------------------------------------------------- */
+
+.ls-rollhead,
+.ls-rollrow {
+  display: grid;
+  grid-template-columns: 1.7fr 0.8fr 0.65fr 1.5fr;
+  gap: 14px;
+}
+
+.ls-rollhead {
+  padding: 11px 24px;
+  background: linear-gradient(120deg, #f6faff, #eef6fd);
+  border-top: 1px solid #eaf1f9;
+  border-bottom: 1px solid #eaf1f9;
+}
+
+.ls-rollrow {
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #f2f6fc;
+}
+
+.ls-rollrow > *:nth-child(4) {
+  justify-self: end;
+}
+
+@container (max-width: 639px) {
+  .ls-rollhead {
+    display: none;
+  }
+
+  .ls-rollrow {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    align-items: start;
+    margin: 0 12px 10px;
+    padding: 14px 15px;
+    border: 1px solid #e0eaf7;
+    border-radius: 16px;
+  }
+
+  /* tenant identity and status each take their own full-width line;
+     rent and enrolled-months share the middle row */
+  .ls-rollrow > *:nth-child(1),
+  .ls-rollrow > *:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+
+  .ls-rollrow > *:nth-child(4) {
+    justify-self: start;
+  }
+}
+
+/* Flags & disputes record row. Desktop tracks are intentionally unequal, so
+   .ls-cells (which would flatten them to equal fractions) does not fit. */
+.ls-flagrow {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr 0.6fr auto;
+}
+
+.ls-flagrow > *:last-child {
+  justify-self: end;
+}
+
+@container (max-width: 639px) {
+  .ls-flagrow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ls-flagrow > *:last-child {
+    justify-self: start;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Sign-in. Renders outside the Shell, so there is no .ls-content query
+   container — this has to key off the viewport. Below the desktop floor the
+   marketing half is dropped and the form takes the whole screen; a sign-in
+   form squeezed into half a phone is not usable, and the panel is decoration.
+   --------------------------------------------------------------------------- */
+
+.ls-signin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* display lives here, not inline, so the hide rule below can actually win */
+.ls-signin-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 1023px) {
+  .ls-signin {
+    grid-template-columns: 1fr;
+  }
+
+  .ls-signin-brand {
+    display: none;
+  }
+}

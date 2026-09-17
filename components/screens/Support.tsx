@@ -27,7 +27,7 @@ export function Support() {
 
   return (
     <Shell title="Support" subtitle="Partner support replies within one business day">
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <Card style={{ padding: '30px 32px', borderRadius: 24 }}>
           {sent ? (
             <div className="ls-rise" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '24px 0' }}>

@@ -28,7 +28,7 @@ export function AddProperty() {
       subtitle="We verify your authority to report for this owner before any tenant can be added"
       actions={<Button href="/properties" tone="ghost">Back to properties</Button>}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 22, alignItems: 'start' }}>
+      <div className="ls-split" style={{ display: 'grid', gap: 22, alignItems: 'start' }}>
         <Card style={{ padding: '30px 32px', borderRadius: 24, boxShadow: shadow.panel }}>
           {submitted ? (
             <div className="ls-rise">
@@ -51,7 +51,7 @@ export function AddProperty() {
                     <path d="M6 12.6l3.7 3.6L18 7.6" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ font: '700 24px/1.22 ' + font.family, letterSpacing: '-.025em', color: color.ink, marginBottom: 6 }}>
                     Sent for review
                   </div>
@@ -80,7 +80,7 @@ export function AddProperty() {
                 management agreement for this specific building.
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 22 }}>
+              <div className="ls-pair" style={{ display: 'grid', gap: 14, marginBottom: 22 }}>
                 <div style={{ gridColumn: '1 / -1' }}>
                   <Field label="PROPERTY ADDRESS">
                     <TextInput value={address} onChange={setAddress} placeholder="e.g. 120 Victoria St S, Kitchener" />
@@ -95,7 +95,7 @@ export function AddProperty() {
               </div>
 
               <Eyebrow>AUTHORITY DOCUMENTS</Eyebrow>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 22 }}>
+              <div className="ls-pair" style={{ display: 'grid', gap: 12, marginBottom: 22 }}>
                 {DOCS.map((d) => {
                   const done = Boolean(uploaded[d.key]);
                   return (
